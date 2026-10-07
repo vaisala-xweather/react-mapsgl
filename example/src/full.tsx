@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import ReactMapboxGL from 'react-mapbox-gl';
-import * as mapsgl from '@aerisweather/mapsgl';
+import { DataQuality } from '@xweather/mapsgl';
 import ReactMapsGL, { Timeline,
     WeatherLayer,
     DataInspector,
-    LegendControl } from '@aerisweather/react-mapsgl';
+    LegendControl } from '@xweather/react-mapsgl';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
-import '@aerisweather/mapsgl/dist/mapsgl.css';
+import '@xweather/mapsgl/dist/mapsgl.css';
 
 // Mapbox factory
 const Map = ReactMapboxGL({
@@ -61,7 +61,7 @@ const MapView = ({
                     />
                     <DataInspector event="move" />
                     <LegendControl />
-                    <WeatherLayer id="temperatures" quality={mapsgl.DataQuality.low} paint={{
+                    <WeatherLayer id="temperatures" quality={DataQuality.low} paint={{
                         sample: {
                             colorscale: {
                                 interval: 1,

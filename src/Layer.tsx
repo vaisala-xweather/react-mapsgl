@@ -15,8 +15,8 @@ const Layer = ({
     id, type, source, sourceId, sourceType, sourceLayer, paint
 }: LayerOptions) => {
     const controller = useContext(MapControllerContext);
-    const sourceRef = useRef<any>();
-    const layerRef = useRef<any>();
+    const sourceRef = useRef<any>(undefined);
+    const layerRef = useRef<any>(undefined);
 
     if (!source && !sourceId) return <></>;
 

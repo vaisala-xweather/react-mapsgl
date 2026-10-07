@@ -13,5 +13,9 @@ module.exports = {
         sourceType: 'module'
     },
     extends: ['plugin:@aerisweather/recommended'],
-    plugins: ['@aerisweather']
+    plugins: ['@aerisweather'],
+    rules: {
+        'no-console': 'off',
+        'unicorn/no-useless-undefined': 'off'
+    }
 };

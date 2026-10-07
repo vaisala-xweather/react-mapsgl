@@ -1,4 +1,4 @@
-import { AnyMapController } from '@aerisweather/mapsgl';
+import { AnyMapController } from '@xweather/mapsgl';
 import * as React from 'react';
 
 export const MapControllerContext = React.createContext<AnyMapController | undefined>(undefined) as React.Context<any>;

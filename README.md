@@ -1,8 +1,6 @@
-[<img width="300" alt="MapsGL" src="https://www.aerisweather.com/img/graphics/mapsgl-logo.png">](https://www.aerisweather.com/products/mapsgl/)
-
 # react-mapsgl
 
-**react-mapsgl** is a React wrapper for our [MapsGL service and SDK](https://www.aerisweather.com/products/mapsgl/), a Javascript SDK that allows you to easily customize and integrate a variety of high-quality, vector-based weather data, imagery, and visualizations into your applications and custom solutions.
+**react-mapsgl** is a React wrapper for our [MapsGL service and SDK](https://www.xweather.com/products/mapsgl/), a Javascript SDK that allows you to easily customize and integrate a variety of high-quality, vector-based weather data, imagery, and visualizations into your applications and custom solutions.
 
 ### Supported Mapping Libraries
 
@@ -16,7 +14,7 @@ MapsGL supports the following third-party mapping libraries:
 ## Getting Started
 
 ```bash
-yarn add @aerisweather/react-mapsgl
+yarn add @xweather/react-mapsgl
 ```
 
 ### Examples
@@ -26,16 +24,16 @@ ES6 with `react-mapbox-gl`:
 ```typescript
 import React, { useState } from 'react';
 import ReactMapboxGL from 'react-mapbox-gl';
-import * as mapsgl from '@aerisweather/mapsgl';
+import * as mapsgl from '@xweather/mapsgl';
 import ReactMapsGL, { 
     Timeline,
     WeatherLayer,
     DataInspector,
     LegendControl 
-} from '@aerisweather/react-mapsgl';
+} from '@xweather/react-mapsgl';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
-import '@aerisweather/mapsgl/dist/mapsgl.css';
+import '@xweather/mapsgl/dist/mapsgl.css';
 
 // Mapbox factory
 const Map = ReactMapboxGL({
@@ -114,14 +112,14 @@ The following example adds a custom GeoJSON data source and associated layers to
 ```typescript
 import React, { useState } from 'react';
 import ReactMapboxGL from 'react-mapbox-gl';
-import * as mapsgl from '@aerisweather/mapsgl';
+import * as mapsgl from '@xweather/mapsgl';
 import ReactMapsGL, { 
     Source,
     Layer 
-} from '@aerisweather/react-mapsgl';
+} from '@xweather/react-mapsgl';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
-import '@aerisweather/mapsgl/dist/mapsgl.css';
+import '@xweather/mapsgl/dist/mapsgl.css';
 
 // Mapbox factory
 const Map = ReactMapboxGL({
@@ -266,7 +264,7 @@ For basic examples of how to use React MapsGL with the different third-party map
 > yarn develop
 ```
 
-You will need to rename `.env.txt` to `.env` at the root of this repo and add the necessary AerisWeather and third-party mapping keys before running `yarn develop`.
+You will need to rename `.env.txt` to `.env` at the root of this repo and add the necessary Xweather and third-party mapping keys before running `yarn develop`.
 
 Open the `examples/src/index.ts` file and swap out the rendered component based on your desired mapping library: 
 
@@ -288,20 +286,16 @@ root.render(<ReactMapboxMap />);
 
 Since React MapsGL is written in Typescript, you can refer to the options interface corresponding to each component that's part of the library within the `src/` directory (e.g. `MapControllerOptions`, `DataInspectorControlOptions`, `LegendControlOptions` and `TimelineOptions`) for the list of supported properties and their requirements. 
 
-Also refer to the [MapsGL documentation](https://www.aerisweather.com/docs/mapsgl/) for the complete usage documentation and information regarding working with and using MapsGL.
+Also refer to the [MapsGL documentation](https://www.xweather.com/docs/mapsgl/) for the complete usage documentation and information regarding working with and using MapsGL.
 
 ## MapsGL Resources
 
 Use the following MapsGL resources to learn more about the SDK and the wide range of customization options, or to view a variety of demos and examples:
 
-- [Getting started](https://www.aerisweather.com/docs/mapsgl/getting-started/)
-- [MapsGL Documentation](https://www.aerisweather.com/docs/mapsgl/)
-- Demos: [Media](https://demos.aerisweather.com/map-app/mapsgl-media/), [Severe](https://demos.aerisweather.com/map-app/mapsgl-severe/)
-- [Examples](https://www.aerisweather.com/docs/mapsgl/)
+- [Getting started](https://www.xweather.com/docs/mapsgl/getting-started/)
+- [MapsGL Documentation](https://www.xweather.com/docs/mapsgl/)
+- [Examples](https://www.xweather.com/docs/mapsgl/)
 
 ## Support
 
 For issues and feature requests related to this **react-mapsgl** library, please submit a Github issue. 
-
-For all MapsGL-specific support, [submit a new ticket](https://helpdesk.aerisweather.com/) with any questions, bug reports or feature suggestions you have. You can also reach out to us on Twitter at [@AerisWeather](https://twitter.com/AerisWeather).
-	

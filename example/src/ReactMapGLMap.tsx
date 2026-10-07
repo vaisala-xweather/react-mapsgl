@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import ReactMap from 'react-map-gl';
-import { WeatherLayer } from '@aerisweather/react-mapsgl';
 import MapsGL from './MapsGL';
 import { MAP_OPTS } from './constants';
 

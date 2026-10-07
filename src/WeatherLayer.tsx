@@ -1,4 +1,4 @@
-import * as mapsgl from '@aerisweather/mapsgl';
+import * as mapsgl from '@xweather/mapsgl';
 import React, { useContext, useEffect, useState } from 'react';
 import { MapControllerContext } from './Context';
 

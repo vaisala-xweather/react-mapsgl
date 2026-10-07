@@ -1,13 +1,12 @@
 import React from 'react';
-import * as mapsgl from '@aerisweather/mapsgl';
-
+import { DataQuality, ParticleDensity, units } from '@xweather/mapsgl';
 import ReactMapsGL, { MapStrategyType,
     Timeline,
     WeatherLayer,
     DataInspector,
-    LegendControl } from '@aerisweather/react-mapsgl';
+    LegendControl } from '@xweather/react-mapsgl';
 
-import '@aerisweather/mapsgl/dist/mapsgl.css';
+import '@xweather/mapsgl/dist/mapsgl.css';
 
 const MapController = ReactMapsGL({
     accessKeys: {
@@ -31,22 +30,22 @@ const MapsGL = ({
         <Timeline
             start={new Date(Date.now() - (3600 * 12 * 1000))}
             duration={6}
-            isPlaying={true}
+            isPlaying={false}
             onPlay={() => console.log('playing')} // eslint-disable-line no-console
             onStop={() => console.log('stopped')} // eslint-disable-line no-console
         />
         <DataInspector event="move" />
-        <LegendControl />
-        <WeatherLayer id="temperatures" quality={mapsgl.DataQuality.low} paint={{
+        <LegendControl width={400} />
+        <WeatherLayer id="temperatures" quality={DataQuality.low} paint={{
             sample: {
                 colorscale: {
-                    interval: mapsgl.units.CtoFUnit(1)
+                    interval: units.CtoFUnit(1)
                 }
             }
         }} />
         <WeatherLayer id="wind-particles" paint={{
             particle: {
-                density: mapsgl.ParticleDensity.normal,
+                density: ParticleDensity.normal,
                 size: 1
             },
             sample: {

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import * as mapsgl from '@aerisweather/mapsgl';
+import * as mapsgl from '@xweather/mapsgl';
 import { MapControllerContext } from './Context';
 
 export interface DataInspectorControlOptions {

@@ -11,7 +11,7 @@ const Source = ({
     id, type, options
 }: LayerOptions) => {
     const controller = useContext(MapControllerContext);
-    const sourceRef = useRef<any>();
+    const sourceRef = useRef<any>(undefined);
 
     if (!options) return <></>;
 

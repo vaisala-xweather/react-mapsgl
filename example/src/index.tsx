@@ -1,8 +1,5 @@
-'use client';
-
 import { createRoot } from 'react-dom/client';
 import { useState } from 'react';
-import { WeatherLayer } from '@aerisweather/react-mapsgl';
 import { ErrorBoundary } from 'react-error-boundary';
 import ReactMapboxMap from './ReactMapboxMap';
 import ReactMapGLMap from './ReactMapGLMap';

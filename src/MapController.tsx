@@ -1,4 +1,4 @@
-import * as mapsgl from '@aerisweather/mapsgl';
+import * as mapsgl from '@xweather/mapsgl';
 import React, { useEffect, useRef, useState } from 'react';
 import { MapControllerContext } from './Context';
 
@@ -69,7 +69,7 @@ export interface FactoryParameters {
 const MapControllerFactory = ({
     accessKeys,
     options
-}: FactoryParameters) => {
+}: FactoryParameters): React.FunctionComponent<MapControllerOptions> => {
     const MapController = ({
         strategy,
         map,
@@ -88,11 +88,11 @@ const MapControllerFactory = ({
         onLayerAdd = () => {},
         onSourceRemove = () => {},
         onLayerRemove = () => {}
-    }: MapControllerOptions): React.ReactElement => {
+    }: MapControllerOptions) => {
         const [isInitialized, setIsInitialized] = useState(false);
 
-        const accountRef = useRef<mapsgl.Account>();
-        const controllerRef = useRef<AnyMapController>();
+        const accountRef = useRef<mapsgl.Account | undefined>(undefined);
+        const controllerRef = useRef<AnyMapController | undefined>(undefined);
 
         useEffect(() => () => {
             controllerRef.current?.dispose();
@@ -147,7 +147,7 @@ const MapControllerFactory = ({
         if (!isInitialized) return <></>;
 
         return (
-            <MapControllerContext.Provider value={controllerRef.current}>
+            <MapControllerContext.Provider value={controllerRef.current!}>
                 {children}
             </MapControllerContext.Provider>
         );
