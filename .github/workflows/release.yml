@@ -1,0 +1,149 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to tag, without a leading v (0.3.0 or 0.3.0-beta.1)"
+        required: true
+        type: string
+      dry_run:
+        description: "Build and pack only. Do not commit or tag."
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Tag @xweather/react-mapsgl
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.dry_run == false && 'release' || '' }}
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Require main
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo "Releases run from main. Selected ref: ${{ github.ref }}"
+          exit 1
+
+      - name: Validate version
+        id: version
+        env:
+          RAW_VERSION: ${{ inputs.version }}
+        run: |
+          normalized="$(node scripts/assert-release-version.mjs "$RAW_VERSION")"
+          echo "version=$normalized" >> "$GITHUB_OUTPUT"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: yarn
+
+      - name: Install Yarn
+        run: npm install -g yarn@1.22.22
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+        env:
+          CYPRESS_INSTALL_BINARY: "0"
+          HUSKY: "0"
+
+      - name: Build
+        run: yarn build
+
+      - name: Set version
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          node --input-type=module <<'EOF'
+          import { readFileSync, writeFileSync } from "node:fs";
+
+          const version = process.env.VERSION;
+          const source = readFileSync("package.json", "utf8");
+          const next = source.replace(/("version"\s*:\s*")[^"]+(")/, `$1${version}$2`);
+          if (!next.includes(`"version": "${version}"`) && !next.includes(`"version":"${version}"`)) {
+            console.error("Failed to update package.json version");
+            process.exit(1);
+          }
+          writeFileSync("package.json", next);
+          EOF
+
+      - name: Pack dry run
+        if: inputs.dry_run
+        run: npm pack --dry-run --ignore-scripts
+
+      - name: Commit version
+        if: ${{ !inputs.dry_run }}
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json
+          if git diff --cached --quiet; then
+            echo "package.json is already ${VERSION}"
+          else
+            HUSKY=0 git commit -m "chore: release ${VERSION}"
+            git push origin HEAD:main
+          fi
+
+      - name: Tag release
+        if: ${{ !inputs.dry_run }}
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          tag="v${VERSION}"
+          if git ls-remote --exit-code --tags origin "refs/tags/${tag}" >/dev/null 2>&1; then
+            echo "Tag ${tag} already exists"
+          else
+            git tag -a "$tag" -m "Release ${tag}"
+            git push origin "refs/tags/${tag}"
+          fi
+
+      - name: Create GitHub release
+        if: ${{ !inputs.dry_run }}
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="v${VERSION}"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "GitHub release ${tag} already exists"
+          else
+            gh release create "$tag" --title "$tag" --generate-notes
+          fi
+
+      - name: Summarize
+        if: ${{ !inputs.dry_run }}
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          {
+            echo "### Tagged v${VERSION}"
+            echo "npm publish stays local. From a clean main:"
+            echo ""
+            echo "\`\`\`bash"
+            echo "git checkout main"
+            echo "git pull"
+            if [[ "$VERSION" == *-* ]]; then
+              echo "npm publish --tag beta"
+            else
+              echo "npm publish"
+            fi
+            echo "\`\`\`"
+          } >> "$GITHUB_STEP_SUMMARY"

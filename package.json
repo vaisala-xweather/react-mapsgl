@@ -4,6 +4,19 @@
   "author": "Vaisala Xweather",
   "homepage": "https://www.xweather.com",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vaisala-xweather/react-mapsgl.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vaisala-xweather/react-mapsgl/issues"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "dist/es6/index.js",
   "module": "dist/esm/index.js",
   "typings": "dist/es6/index.d.ts",
@@ -20,7 +33,7 @@
     "lint": "eslint src",
     "test": "jest --passWithNoTests",
     "test:watch": "jest --watch",
-    "prepublishOnly": "npm run clean && npm run build",
+    "prepublishOnly": "node scripts/assert-local-release-publish.mjs && npm run clean && npm run build",
     "prepush": "npm run build"
   },
   "config": {
